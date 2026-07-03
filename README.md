@@ -22,7 +22,7 @@ OURA_CLIENT_ID=your_oura_client_id_here
 OURA_CLIENT_SECRET=your_oura_client_secret_here
 RECIPIENT_PHONE=recipient_phone_number_here
 ```
-*Note: The phone number must contain only digits, including country code (e.g., `393331234567`). No "+" or spaces.*
+*Note: The phone number must contain only digits, including country code (e.g., American: `15551234567`). No "+" or spaces.*
 
 ---
 
@@ -71,3 +71,22 @@ Fetch metrics, compile the report, and send it immediately (ignores duplicate ch
 ```bash
 node index.js --force
 ```
+
+---
+
+## Customizing the Message
+
+To customize the message content, translate the labels, or edit emojis, modify the `constructMessage` function in `index.js`:
+
+```javascript
+function constructMessage(metrics) {
+  // ... format values ...
+  return (
+    `- Sleep time: ${duration}\n` +
+    `- Sleep Score: ${sleepSc}\n` +
+    // Customize your labels, symbols, or layout here!
+  );
+}
+```
+
+You can also customize the stress status translations in `translateStress(stress)`.
