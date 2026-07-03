@@ -4,7 +4,11 @@
   "description": "Oura Ring to WhatsApp Automation using Baileys",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "auth": "node auth_setup.js",
+    "test-send": "node index.js --test-send",
+    "dry-run": "node index.js --dry-run",
+    "force": "node index.js --force"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.9",

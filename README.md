@@ -33,15 +33,27 @@ LANGUAGE=en
 
 ## Step 3: Run Initial Oura Authorization (Once)
 
-Because Oura uses OAuth2 with rotating tokens, you must authorize it once via your browser to generate the initial token credentials:
+Because Oura uses OAuth2 with rotating tokens, you must authorize it once via your browser to generate the initial token credentials. You can use the setup wrapper scripts or run it natively:
 
+### Option A: Using Wrapper Scripts (Installs dependencies and runs auth automatically)
+*   **Mac/Linux/Termux:**
+    ```bash
+    chmod +x scripts/*.sh
+    ./scripts/setup.sh
+    ```
+*   **Windows:**
+    ```powershell
+    .\scripts\setup.ps1
+    ```
+
+### Option B: Using npm commands (Native)
 1. Install dependencies:
    ```bash
    npm install
    ```
 2. Start the local authorization helper:
    ```bash
-   node auth_setup.js
+   npm run auth
    ```
 3. Open the link displayed in your terminal in your web browser.
 4. Log into Oura, authorize the app, and wait for the "Success" message.
@@ -51,30 +63,54 @@ Because Oura uses OAuth2 with rotating tokens, you must authorize it once via yo
 
 ## Step 4: Link WhatsApp & Run Commands
 
-You can run the script with different flags depending on your environment:
+You can run the script with different flags depending on your environment. You can use the wrapper scripts or standard npm commands:
+
+*   **Mac/Linux/Termux:** Use `./scripts/run.sh <flag>`
+*   **Windows:** Use `.\scripts\run.ps1 <flag>`
+*   **Native npm:** Use `npm run <script>` (or `npm start` for standard run)
 
 ### 1. Test WhatsApp Connection
 Send a static test message to verify the connection and link your WhatsApp session (scans QR code on first run):
 ```bash
-node index.js --test-send
+# Using wrapper script:
+./scripts/run.sh --test-send
+.\scripts\run.ps1 --test-send
+
+# Native npm:
+npm run test-send
 ```
 
 ### 2. Dry Run
 Fetch current metrics and preview the generated report directly in your console (does not send anything to WhatsApp):
 ```bash
-node index.js --dry-run
+# Using wrapper script:
+./scripts/run.sh --dry-run
+.\scripts\run.ps1 --dry-run
+
+# Native npm:
+npm run dry-run
 ```
 
 ### 3. Production Run (Standard)
-Fetch metrics, compile the report, and send it to your recipient's WhatsApp. It automatically records the date in `state.json` to prevent sending duplicate reports for the same day if run multiple times:
+Fetch metrics, compile the report, and send it to your recipient's WhatsApp. It automatically records the date in `state.json` to prevent duplicate reports for the same day if run multiple times:
 ```bash
-node index.js
+# Using wrapper script:
+./scripts/run.sh
+.\scripts\run.ps1
+
+# Native npm:
+npm start
 ```
 
 ### 4. Force Send
 Fetch metrics, compile the report, and send it immediately (ignores duplicate check restrictions):
 ```bash
-node index.js --force
+# Using wrapper script:
+./scripts/run.sh --force
+.\scripts\run.ps1 --force
+
+# Native npm:
+npm run force
 ```
 
 ---
