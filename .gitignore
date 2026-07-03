@@ -1,0 +1,21 @@
+# Dependency directory
+node_modules/
+
+# Local credentials & configuration (CRITICAL: Do not upload to Git!)
+.env
+
+# Dynamic Oura API tokens & state (CRITICAL: Do not upload to Git!)
+state.json
+
+# WhatsApp authenticated session files (CRITICAL: Do not upload to Git!)
+auth/
+
+# Generated QR code image
+qr.png
+
+# Local log files
+cron.log
+*.log
+
+# ZIP archives
+*.zip
