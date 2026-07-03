@@ -146,51 +146,99 @@ async function fetchLatestMetrics(state) {
   };
 }
 
+// Translation mapping for multi-language support
+const translations = {
+  en: {
+    sleepTime: "Sleep time",
+    sleepScore: "Sleep Score",
+    readiness: "Readiness",
+    daytimeStress: "Daytime Stress",
+    averageHeartRate: "Average Heart Rate",
+    lowest: "lowest",
+    averageHrv: "Average HRV",
+    respiratoryRate: "Respiratory Rate",
+    breathsPerMin: "breaths/min",
+    tempDeviation: "Temperature Deviation",
+    notAvailable: "Not available",
+    stressRestored: "Mostly relaxed",
+    stressNormal: "Normal",
+    stressful: "Slightly stressed",
+    stressHigh: "Highly stressed"
+  },
+  it: {
+    sleepTime: "Ho dormito",
+    sleepScore: "Punteggio Sonno",
+    readiness: "Prontezza (Readiness)",
+    daytimeStress: "Stress diurno",
+    averageHeartRate: "Battito cardiaco medio",
+    lowest: "minimo",
+    averageHrv: "HRV medio",
+    respiratoryRate: "Frequenza respiratoria",
+    breathsPerMin: "respiri/min",
+    tempDeviation: "Variazione temperatura",
+    notAvailable: "Non disponibile",
+    stressRestored: "Principalmente rilassato",
+    stressNormal: "Tranquillo (nella norma)",
+    stressful: "Un po' stressato/impegnativo",
+    stressHigh: "Stress elevato"
+  }
+};
+
 // Formatter and Translator
 function formatSleepDuration(seconds) {
-  if (!seconds) return "Not available";
+  const lang = (config.LANGUAGE || 'en').toLowerCase();
+  const t = translations[lang] || translations.en;
+  if (!seconds) return t.notAvailable;
+  
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
-  return `*${hours}h ${minutes}m*`;
+  const connector = lang === 'it' ? 'e ' : '';
+  return `*${hours}h ${connector}${minutes}m*`;
 }
 
 function translateStress(stress) {
+  const lang = (config.LANGUAGE || 'en').toLowerCase();
+  const t = translations[lang] || translations.en;
+  
   const stressMap = {
-    restored: "Mostly relaxed",
-    normal: "Normal",
-    stressful: "Slightly stressed",
-    stress: "Highly stressed"
+    restored: t.stressRestored,
+    normal: t.stressNormal,
+    stressful: t.stressful,
+    stress: t.stressHigh
   };
-  if (!stress) return "Normal";
+  if (!stress) return t.stressNormal;
   return stressMap[stress.toLowerCase()] || stress;
 }
 
 function constructMessage(metrics) {
-  const duration = formatSleepDuration(metrics.sleep_duration);
-  const sleepSc = metrics.sleep_score ? `*${metrics.sleep_score}/100*` : "Not available";
-  const readinessSc = metrics.readiness_score ? `*${metrics.readiness_score}/100*` : "Not available";
-  const stress = translateStress(metrics.stress_summary);
-  const avgHr = metrics.average_heart_rate ? `*${Math.round(metrics.average_heart_rate)} bpm*` : "Not available";
-  const minHr = metrics.lowest_heart_rate ? `*${Math.round(metrics.lowest_heart_rate)} bpm*` : "Not available";
+  const lang = (config.LANGUAGE || 'en').toLowerCase();
+  const t = translations[lang] || translations.en;
 
-  const hrv = metrics.average_hrv ? `*${Math.round(metrics.average_hrv)} ms*` : "Not available";
-  const breath = metrics.average_breath ? `*${metrics.average_breath.toFixed(1)} breaths/min*` : "Not available";
+  const duration = formatSleepDuration(metrics.sleep_duration);
+  const sleepSc = metrics.sleep_score ? `*${metrics.sleep_score}/100*` : t.notAvailable;
+  const readinessSc = metrics.readiness_score ? `*${metrics.readiness_score}/100*` : t.notAvailable;
+  const stress = translateStress(metrics.stress_summary);
+  const avgHr = metrics.average_heart_rate ? `*${Math.round(metrics.average_heart_rate)} bpm*` : t.notAvailable;
+  const minHr = metrics.lowest_heart_rate ? `*${Math.round(metrics.lowest_heart_rate)} bpm*` : t.notAvailable;
+
+  const hrv = metrics.average_hrv ? `*${Math.round(metrics.average_hrv)} ms*` : t.notAvailable;
+  const breath = metrics.average_breath ? `*${metrics.average_breath.toFixed(1)} ${t.breathsPerMin}*` : t.notAvailable;
   
-  let tempStr = "Not available";
+  let tempStr = t.notAvailable;
   if (metrics.temperature_deviation !== undefined && metrics.temperature_deviation !== null) {
     const sign = metrics.temperature_deviation > 0 ? "+" : "";
     tempStr = `*${sign}${metrics.temperature_deviation.toFixed(2)} °C*`;
   }
 
   return (
-    `- Sleep time: ${duration}\n` +
-    `- Sleep Score: ${sleepSc}\n` +
-    `- Readiness: ${readinessSc}\n` +
-    `- Daytime Stress: ${stress}\n` +
-    `- Average Heart Rate: ${avgHr} (lowest: ${minHr})\n` +
-    `- Average HRV: ${hrv}\n` +
-    `- Respiratory Rate: ${breath}\n` +
-    `- Temperature Deviation: ${tempStr}`
+    `- ${t.sleepTime}: ${duration}\n` +
+    `- ${t.sleepScore}: ${sleepSc}\n` +
+    `- ${t.readiness}: ${readinessSc}\n` +
+    `- ${t.daytimeStress}: ${stress}\n` +
+    `- ${t.averageHeartRate}: ${avgHr} (${t.lowest}: ${minHr})\n` +
+    `- ${t.averageHrv}: ${hrv}\n` +
+    `- ${t.respiratoryRate}: ${breath}\n` +
+    `- ${t.tempDeviation}: ${tempStr}`
   );
 }
 

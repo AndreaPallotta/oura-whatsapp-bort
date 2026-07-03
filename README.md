@@ -21,8 +21,9 @@ Create a `.env` file in the root of the project directory (refer to [.env.exampl
 OURA_CLIENT_ID=your_oura_client_id_here
 OURA_CLIENT_SECRET=your_oura_client_secret_here
 RECIPIENT_PHONE=recipient_phone_number_here
+LANGUAGE=en
 ```
-*Note: The phone number must contain only digits, including country code (e.g., American: `15551234567`). No "+" or spaces.*
+*Note: The phone number must contain only digits, including country code (e.g., American: `15551234567`). No "+" or spaces. The `LANGUAGE` variable currently supports `en` (English) and `it` (Italian).*
 
 ---
 

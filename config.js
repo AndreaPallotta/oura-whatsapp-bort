@@ -5,6 +5,7 @@ const config = {
   OURA_CLIENT_ID: process.env.OURA_CLIENT_ID,
   OURA_CLIENT_SECRET: process.env.OURA_CLIENT_SECRET,
   RECIPIENT_PHONE: process.env.RECIPIENT_PHONE,
+  LANGUAGE: process.env.LANGUAGE || 'en',
   STATE_FILE: path.join(__dirname, 'state.json'),
   
   validateConfig(isAuthSetup = false) {
