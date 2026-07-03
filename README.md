@@ -65,16 +65,22 @@ Because Oura uses OAuth2 with rotating tokens, you must authorize it once via yo
 
 You can run the script with different flags depending on your environment. You can use the wrapper scripts or standard npm commands:
 
-*   **Mac/Linux/Termux:** Use `./scripts/run.sh <flag>`
-*   **Windows:** Use `.\scripts\run.ps1 <flag>`
+*   **Mac/Linux/Termux:** Use `./scripts/run.sh [flag]`
+    *   `-t` or `--test`: Test connection
+    *   `-d` or `--dry`: Dry run
+    *   `-f` or `--force`: Force send
+*   **Windows:** Use `.\scripts\run.ps1 [flag]`
+    *   `-t` or `-Test`: Test connection
+    *   `-d` or `-Dry`: Dry run
+    *   `-f` or `-Force`: Force send
 *   **Native npm:** Use `npm run <script>` (or `npm start` for standard run)
 
 ### 1. Test WhatsApp Connection
 Send a static test message to verify the connection and link your WhatsApp session (scans QR code on first run):
 ```bash
 # Using wrapper script:
-./scripts/run.sh --test-send
-.\scripts\run.ps1 --test-send
+./scripts/run.sh -t         # Mac/Linux/Termux
+.\scripts\run.ps1 -t        # Windows
 
 # Native npm:
 npm run test-send
@@ -84,17 +90,17 @@ npm run test-send
 Fetch current metrics and preview the generated report directly in your console (does not send anything to WhatsApp):
 ```bash
 # Using wrapper script:
-./scripts/run.sh --dry-run
-.\scripts\run.ps1 --dry-run
+./scripts/run.sh -d
+.\scripts\run.ps1 -d
 
 # Native npm:
 npm run dry-run
 ```
 
 ### 3. Production Run (Standard)
-Fetch metrics, compile the report, and send it to your recipient's WhatsApp. It automatically records the date in `state.json` to prevent duplicate reports for the same day if run multiple times:
+Fetch metrics, compile the report, and send it to your recipient's WhatsApp. It automatically records the date in `state.json` to prevent duplicate reports:
 ```bash
-# Using wrapper script:
+# Using wrapper script (no flags):
 ./scripts/run.sh
 .\scripts\run.ps1
 
@@ -106,8 +112,8 @@ npm start
 Fetch metrics, compile the report, and send it immediately (ignores duplicate check restrictions):
 ```bash
 # Using wrapper script:
-./scripts/run.sh --force
-.\scripts\run.ps1 --force
+./scripts/run.sh -f
+.\scripts\run.ps1 -f
 
 # Native npm:
 npm run force

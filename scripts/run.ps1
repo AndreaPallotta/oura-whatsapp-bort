@@ -1,3 +1,14 @@
+param (
+    [Alias("t")]
+    [switch]$Test,
+
+    [Alias("d")]
+    [switch]$Dry,
+
+    [Alias("f")]
+    [switch]$Force
+)
+
 $RootDir = Split-Path -Parent $PSScriptRoot
 Set-Location $RootDir
 
@@ -7,5 +18,11 @@ if ((-not (Test-Path .env)) -or (-not (Test-Path node_modules)) -or (-not (Test-
     exit 1
 }
 
-# Pass all arguments directly
-npm start -- $args
+# Build arguments list matching node flags
+$cmdArgs = @()
+if ($Test) { $cmdArgs += "--test-send" }
+if ($Dry)  { $cmdArgs += "--dry-run" }
+if ($Force) { $cmdArgs += "--force" }
+
+# Execute node process
+node index.js $cmdArgs
