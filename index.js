@@ -181,6 +181,40 @@ const translations = {
     stressNormal: "Tranquillo (nella norma)",
     stressful: "Un po' stressato/impegnativo",
     stressHigh: "Stress elevato"
+  },
+  fr: {
+    sleepTime: "Temps de sommeil",
+    sleepScore: "Score de sommeil",
+    readiness: "Disponibilité (Readiness)",
+    daytimeStress: "Stress diurne",
+    averageHeartRate: "Fréquence cardiaque moyenne",
+    lowest: "minimum",
+    averageHrv: "VRC moyenne",
+    respiratoryRate: "Fréquence respiratoire",
+    breathsPerMin: "respirations/min",
+    tempDeviation: "Écart de température",
+    notAvailable: "Non disponible",
+    stressRestored: "Principalement détendu",
+    stressNormal: "Normal",
+    stressful: "Plutôt stressant/actif",
+    stressHigh: "Stress élevé"
+  },
+  es: {
+    sleepTime: "Tiempo de sueño",
+    sleepScore: "Puntuación de sueño",
+    readiness: "Disposición (Readiness)",
+    daytimeStress: "Estrés diario",
+    averageHeartRate: "Frecuencia cardíaca promedio",
+    lowest: "mínimo",
+    averageHrv: "VFC promedio",
+    respiratoryRate: "Frecuencia respiratoria",
+    breathsPerMin: "respiraciones/min",
+    tempDeviation: "Desviación de temperatura",
+    notAvailable: "No disponible",
+    stressRestored: "Principalmente relajado",
+    stressNormal: "Normal",
+    stressful: "Un poco estresante/activo",
+    stressHigh: "Estrés alto"
   }
 };
 
@@ -192,7 +226,12 @@ function formatSleepDuration(seconds) {
   
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
-  const connector = lang === 'it' ? 'e ' : '';
+  
+  let connector = '';
+  if (lang === 'it') connector = 'e ';
+  else if (lang === 'fr') connector = 'et ';
+  else if (lang === 'es') connector = 'y ';
+  
   return `*${hours}h ${connector}${minutes}m*`;
 }
 

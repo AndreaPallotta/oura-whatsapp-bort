@@ -23,7 +23,11 @@ OURA_CLIENT_SECRET=your_oura_client_secret_here
 RECIPIENT_PHONE=recipient_phone_number_here
 LANGUAGE=en
 ```
-*Note: The phone number must contain only digits, including country code (e.g., American: `15551234567`). No "+" or spaces. The `LANGUAGE` variable currently supports `en` (English) and `it` (Italian).*
+*Note: The phone number must contain only digits, including country code (e.g., American: `15551234567`). No "+" or spaces. The `LANGUAGE` variable supports:*
+* * `en` (English - default)*
+* * `it` (Italian)*
+* * `fr` (French)*
+* * `es` (Spanish)*
 
 ---
 
